@@ -4,7 +4,7 @@ include_once '../dao/pdo.php';
 include_once '../dao/products.php';
 
 
-$data =products_select_all_by_role();
+$data =products_select_all_by_sale_img();
 
 function tinh_tien_sp_sale($goc,$sale){
 return $goc - $goc*$sale;
@@ -65,7 +65,7 @@ return $goc - $goc*$sale;
                     <div class="grid grid-cols-1 gap-2 p-1 bg-orange-300">
                     <a href="<?= SITE_URL ?>?login" class="px-2 bg-blue-300 font-medium " href="">Đăng nhập</a>
                         <a href="<?= SITE_URL ?>?register" class="px-2  bg-blue-300 font-medium" href="">Đăng ký</a>
-                        <a class="px-2  bg-blue-300 font-medium" href="">Đăng xuất</a>
+                        <form action="<?= SITE_URL . '?login'?>" method="POST">  <button name='dx' class="px-2  bg-blue-300 font-medium" href="">Đăng xuất</button></form>
                     </div>
                 </div>
             </div>
@@ -80,8 +80,12 @@ return $goc - $goc*$sale;
                
             </div>
         </div>
-         <label for="">Xin chào, <?= $_SESSION['auth']['name']?></label>
-        </div>
+        <?php echo isset($_SESSION['auth']['name'])? 'Xin chào,' . $_SESSION['auth']['name'] : '' ?>
+
+        </div>  
+      
+    </div>
+
     </div>
     <!-- nav -->
     <nav class=" justify-center gap-8 flex w-full p-6 font-medium text-2xl mx-auto container">

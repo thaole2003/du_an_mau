@@ -3,7 +3,9 @@ include_once '../global.php';
 include_once '../dao/pdo.php';
 include_once '../dao/role.php';
 include_once '../dao/user.php';
-
+if(isset($_POST['dx'])){
+    session_destroy();
+    }
 if(isset($_POST['login'])){
    $password = $_POST['pass'];
     $email = $_POST['email'];
@@ -12,25 +14,30 @@ if(isset($_POST['login'])){
     // echo '<pre>';
     // var_dump($user);
    if(count($user)>0){
-  
+
+ //password_verify - Xác minh rằng mật khẩu khớp với một hàm băm
     if(password_verify($password,  $user['password'])){
         $_SESSION['auth'] = [
             'email' => $user['email'],
             'name' => $user['name'],
             'role_id' => $user['role_id'],
             'role_name' => $user['role_name']
-        ];
-        header("location: " . ADMIN_URL);
-    }
          
+        ];  
+         header("location: " . ADMIN_URL);
+        die;
+      
+    }
+    
 
 }
-else{
-    header('location: ' . SITE_URL . "?login&msg=Tài khoản không chính xác, hãy nhập lại!");
-    die;
-}
+    header("location: " . SITE_URL . '?login&msg=sai tài khoản!');
+        die;
+
+
 
 }
+
 
 ?>
 <!DOCTYPE html>
@@ -96,7 +103,7 @@ else{
                     <div class="grid grid-cols-1 gap-2 p-1 bg-orange-300">
                     <a href="<?= SITE_URL ?>?login" class="px-2 bg-blue-300 font-medium " href="">Đăng nhập</a>
                         <a href="<?= SITE_URL ?>?register" class="px-2  bg-blue-300 font-medium" href="">Đăng ký</a>
-                        <a class="px-2  bg-blue-300 font-medium" href="">Đăng xuất</a>
+                      <form method="POST">  <button name='dx' class="px-2  bg-blue-300 font-medium" href="">Đăng xuất</button></form>
                     </div>
                 </div>
             </div>
@@ -111,7 +118,8 @@ else{
                
             </div>
         </div>
-         <label for="">Xin chào, <?= $_SESSION['auth']['name']?></label>
+        <?php echo isset($_SESSION['auth']['name'])? 'Xin chào,' . $_SESSION['auth']['name'] : '' ?>
+         
         </div>
         
 

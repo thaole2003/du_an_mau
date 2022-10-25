@@ -10,7 +10,11 @@ join product_img p_i
 
     return pdo_query($sql);
 }
-function products_select_all_by_role(){
+function product_update($id, $name, $quantily, $detail, $price,$category_id,$sale_id ){
+    $sql = "UPDATE products SET name=?,quantily=?,detail=?,price=?,category_id=?,sale_id=? WHERE id=?";
+    pdo_execute($sql,$name, $quantily, $detail, $price,$category_id,$sale_id ,$id);
+}
+function products_select_all_by_sale_img(){
     $sql = "SELECT 
     p.*, 
     p_i.img_url as img_name,
@@ -23,18 +27,26 @@ join products_sale p_s
     ";
     return pdo_query($sql);
 }
+function products_destroy($id){
+    $removeProductsWithCategory = "DELETE from products where id = ?;
+    alter table categories drop constraint fk_category;
+    ";
+
+    pdo_execute($removeProductsWithCategory, $id);
+    // $removeCategoryQuery = "DELETE from categories where id = ?";
+    // pdo_execute($removeCategoryQuery, $id);
+    
+   
+}
 function products_select_one($id){
-    $sql = "SELECT * FROM products where id  = ?";
-    return pdo_query_one($sql,$id);
+    $sql = "SELECT * FROM products where id  = $id";
+    return pdo_query_one($sql);
 }
 function products_insert($name, $quantily, $detail, $price,$category_id,$sale_id){
     $sqlQuery = "INSERT INTO products (name,quantily,detail,price,category_id,sale_id) VALUES (?,?,?,?,?,?)";
     pdo_execute($sqlQuery,$name, $quantily, $detail, $price,$category_id,$sale_id);
 }
- function products_update($id,$name){
-    $sql = "UPDATE products SET name = ? WHERE id = ?";
-    pdo_execute($sql , $name , $id);
- }
+
  function products_delete($id){
     $sql = "DELETE FROM products WHERE id = ?";
     if(is_array($id)){

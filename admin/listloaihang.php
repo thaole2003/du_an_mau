@@ -20,7 +20,9 @@ $data = loai_select_all();
    <header class="mx-auto container bg-red-200 rounded-lg">
        <header class="mx-auto container bg-red-200 rounded-lg flex justify-between items-center">
          <h1 class="text-5xl font-medium p-8 text-red-500">Quản trị website</h1>
-         <label for="">Xin chào, <?= $_SESSION['auth']['name']?></label>
+                 <?php echo isset($_SESSION['auth']['name'])? 'Xin chào,' . $_SESSION['auth']['name'] : '' ?>
+
+
 
     </header>
     </header>
@@ -51,7 +53,8 @@ $data = loai_select_all();
             <tr class="text-center border border-blue-200">
                 <td  class="border border-blue-200 p-3" ><?php echo $value['id'] ?></td>
                 <td class="border border-blue-200"> <?php echo $value['name'] ?></td></td>
-                <td class="border border-blue-200"><button type="submit" class="border rounded-md bg-slate-100 px-2" name="btn-edit">Sửa </button>
+                <td class="border border-blue-200">
+                   <a href="edit_loai.php?id=<?= $value['id']?>"> <button type="submit" class="border rounded-md bg-slate-100 px-2" name="btn-edit">Sửa </button></a>
                     <button type="submit" class="border rounded-md bg-slate-100 px-2" name="btn-delete">Xóa</button></td>
             </tr>
             <?php  } ?>
